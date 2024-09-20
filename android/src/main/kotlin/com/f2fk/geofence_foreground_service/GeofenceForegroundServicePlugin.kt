@@ -62,6 +62,7 @@ class GeofenceForegroundServicePlugin : FlutterPlugin, MethodCallHandler, Activi
     private var iconData: NotificationIconData? = null
 
     private var activity: Activity? = null
+    private var packageName: String? = null;
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(
@@ -102,37 +103,37 @@ class GeofenceForegroundServicePlugin : FlutterPlugin, MethodCallHandler, Activi
                     }
 
                     serviceIntent.putExtra(
-                        activity!!.extraNameGen(Constants.isInDebugMode),
+                        "$packageName.${Constants.isInDebugMode}",
                         isInDebugMode
                     )
 
                     serviceIntent.putExtra(
-                        activity!!.extraNameGen(Constants.geofenceAction),
+                        "$packageName.${Constants.geofenceAction}",
                         GeofenceServiceAction.SETUP.toString()
                     )
 
                     serviceIntent.putExtra(
-                        activity!!.extraNameGen(Constants.appIcon),
+                        "$packageName.${Constants.appIcon}",
                         getIconResId(iconData)
                     )
 
                     serviceIntent.putExtra(
-                        activity!!.extraNameGen(Constants.channelId),
+                        "$packageName.${Constants.channelId}",
                         channelId
                     )
 
                     serviceIntent.putExtra(
-                        activity!!.extraNameGen(Constants.contentTitle),
+                        "$packageName.${Constants.contentTitle}",
                         contentTitle
                     )
 
                     serviceIntent.putExtra(
-                        activity!!.extraNameGen(Constants.contentText),
+                        "$packageName.${Constants.contentText}",
                         contentText
                     )
 
                     serviceIntent.putExtra(
-                        activity!!.extraNameGen(Constants.serviceId),
+                        "$packageName.${Constants.serviceId}",
                         serviceId
                     )
 
@@ -237,37 +238,37 @@ class GeofenceForegroundServicePlugin : FlutterPlugin, MethodCallHandler, Activi
         val geofenceIntent = Intent(context, GeofenceForegroundService::class.java)
 
         geofenceIntent.putExtra(
-            activity!!.extraNameGen(Constants.isInDebugMode),
+            "$packageName.${Constants.isInDebugMode}",
             isInDebugMode
         )
 
         geofenceIntent.putExtra(
-            activity!!.extraNameGen(Constants.geofenceAction),
+            "$packageName.${Constants.geofenceAction}",
             GeofenceServiceAction.TRIGGER.toString()
         )
 
         geofenceIntent.putExtra(
-            activity!!.extraNameGen(Constants.appIcon),
+            "$packageName.${Constants.appIcon}",
             getIconResId(iconData)
         )
 
         geofenceIntent.putExtra(
-            activity!!.extraNameGen(Constants.channelId),
+            "$packageName.${Constants.channelId}",
             channelId
         )
 
         geofenceIntent.putExtra(
-            activity!!.extraNameGen(Constants.contentTitle),
+            "$packageName.${Constants.contentTitle}",
             contentTitle
         )
 
         geofenceIntent.putExtra(
-            activity!!.extraNameGen(Constants.contentText),
+            "$packageName.${Constants.contentText}",
             contentText
         )
 
         geofenceIntent.putExtra(
-            activity!!.extraNameGen(Constants.serviceId),
+            "$packageName.${Constants.serviceId}",
             serviceId
         )
 
@@ -347,12 +348,14 @@ class GeofenceForegroundServicePlugin : FlutterPlugin, MethodCallHandler, Activi
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         activity = binding.activity
+        packageName = activity?.packageName
     }
 
     override fun onDetachedFromActivityForConfigChanges() {}
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
         activity = binding.activity
+        packageName = activity?.packageName
     }
 
     override fun onDetachedFromActivity() {}
